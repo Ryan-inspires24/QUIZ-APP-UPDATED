@@ -28,6 +28,7 @@ class QuizView:
         welcomeScreen.mainloop()
 
     def start(self):
+        self.score = 0
         self.currentQuestion = 0
         question = self.questions[self.currentQuestion]
         self.questionWindow = QuestionView(
@@ -80,6 +81,36 @@ class QuizView:
             text=f"Your final score is {self.getScore()} out of {len(self.questions)}",
         )
         scoreMessage.pack(padx=20, pady=20)
+        
+        i=0
+        for question in self.questions:
+           
+            questionText = Label(
+            scoreWindow,
+            text=f"Q{i + 1}: {question.question}"
+            )
+            answerText = Label(scoreWindow, text=f'Correct Answer : {question.answer}')
+            
+            questionText.pack(padx=10, pady=10)
+            
+            correct_answer=question.answer
+            user_answer = self.responses.get(str(i), "No response")
+            frame = Frame(scoreWindow)
+            
+            if user_answer == correct_answer:
+                user_answer_display = f"{user_answer} *" 
+            else: 
+                user_answer_display = f"{user_answer} -" 
+            answerText = Label(frame, text=f"Correct: {correct_answer}        Your Answer: {user_answer_display}") 
+            answerText.pack()
+            frame.pack(padx=20, pady=10)
+            answerText.pack(padx=50, pady=50)
+            
+            i+=1
+            
+
+      
+            
 
         closeBtn = Button(scoreWindow, text="Close", command=scoreWindow.destroy)
         closeBtn.pack(pady=10)
